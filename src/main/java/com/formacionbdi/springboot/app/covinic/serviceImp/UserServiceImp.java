@@ -45,10 +45,10 @@ public class UserServiceImp implements IUserService {
 		
 		try {
 			
-			User p = userRepo.save(user);
-			if (p != null) {
+			User userFinal = userRepo.save(user);
+			if (userFinal != null) {
 				response.put("Mensaje", "El usuario fue creado con exito");
-				response.put("Usuario", p);
+				response.put("Usuario", userFinal);
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
 			} else {
@@ -67,16 +67,16 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public ResponseEntity<?> deleteById(Long id) {
-		Optional<User> p = userRepo.findById( id);
+		Optional<User> user = userRepo.findById( id);
 		Map<String, Object> response = new HashMap<>();
-		if (p.isPresent()) {
-			userRepo.delete(p.get());
+		if (user.isPresent()) {
+			userRepo.delete(user.get());
 		}else {					
 			response.put("Mensaje", "El usuario que desea eliminar no se encuentra");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		response.put("Mensaje", "El usuario se elimino con exito");
-		response.put("Usuario",p.get());
+		response.put("Usuario",user.get());
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
@@ -84,7 +84,7 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public ResponseEntity<?> Update(User user, BindingResult result) {
-		Optional<User> p = userRepo.findById( user.getIdentificacion());
+		Optional<User> userFinal = userRepo.findById( user.getIdentificacion());
 		
 		Map<String, Object> response = new HashMap<>();
 		if (result.hasErrors()) {
@@ -96,7 +96,7 @@ public class UserServiceImp implements IUserService {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 
 		}
-		if (p.isPresent()) {
+		if (userFinal.isPresent()) {
 			User userResponse= userRepo.save(user);
 			response.put("Mensaje", "El usuario se editado con exito");
 			response.put("Usuario",userResponse);
@@ -112,11 +112,11 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public ResponseEntity<?> findById(Long id) {
-		Optional<User> p = userRepo.findById(id);
+		Optional<User> user = userRepo.findById(id);
 		Map<String, Object> response = new HashMap<>();
-		if(p.isPresent()) {			
+		if(user.isPresent()) {			
 			
-			response.put("Usuario",p.get());
+			response.put("Usuario",user.get());
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 		}
 		response.put("Mensaje", "El usuario no se encuentra");
