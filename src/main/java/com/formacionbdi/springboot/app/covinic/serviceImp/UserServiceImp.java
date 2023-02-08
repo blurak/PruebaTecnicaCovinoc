@@ -27,7 +27,7 @@ public class UserServiceImp implements IUserService {
 		// TODO Auto-generated method stub
 		
 		Map<String, Object> response = new HashMap<>();
-
+		
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream().map(err -> {
 				return "El Campo " + err.getField() + " " + err.getDefaultMessage();
